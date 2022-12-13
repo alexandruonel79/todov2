@@ -1,4 +1,4 @@
-function addTask() {///e.preventDefault()
+function addTask() {
         let textNou = document.querySelector('#numeTaskNou').value;
 
         if (textNou != "") {
@@ -27,7 +27,7 @@ function addTask() {///e.preventDefault()
                 let butonDelete = document.createElement("button");
                 butonDelete.innerHTML = "Delete";
                 butonDelete.classList.add("delete");
-                butonDelete.setAttribute("onclick", "this.parentElement.style.display = 'none';");
+                butonDelete.setAttribute("onclick", "removeTask(this.parentElement)");
 
                 element.appendChild(buton);
                 element.appendChild(paragrafe);
@@ -50,6 +50,10 @@ function verificareExistenta(textNou) {
                 }
         }
         return 0;
+}
+function removeTask(element) {
+        let el = element;
+        el.remove();
 }
 function addTaskEnter(event) {
         event.preventDefault();
