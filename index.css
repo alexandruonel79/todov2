@@ -75,8 +75,16 @@ html{
         background-color: #b5bbbb;
 }
 .check{
-        color: green;
+        color: red;
         background-color: #081426;
         border: none;
         font-size: large;
+}
+.completed{
+        color: green;
+}
+.info{
+        font-size: 20px;
+        border-radius: 10px;
+        background-color: #7ab9b9;
 }

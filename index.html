@@ -16,11 +16,15 @@
                 </div>
                 <div class="adaugate">
                         <div class="todos">
-                                <button type="button" class="check">✔</button>
-                                <p class="paragrafe">merg la mare</p>
-                                <button class="edit">Edit</button>
+                                <button type="button" class="check" onclick="isCompleted(this)">✔</button>
+                                <p class="paragrafe" contenteditable="false">merg la mare</p>
+                                <button class="edit" onclick="editTask(this.parentElement)">Edit</button>
                                 <button class="delete" onclick="removeTask(this.parentElement)">Delete</button>
                         </div>
+                </div>
+                <div class="status">
+                        <button class="info" type="button">All</button>
+                        <button class="info" type="button">Show completed</button>
                 </div>
         </div>
         <script src="index.js"></script>
