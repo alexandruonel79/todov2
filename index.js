@@ -1,4 +1,12 @@
-var allTasks = JSON.parse(localStorage.getItem("names"));
+///storage pentru taskuri nu functioneaza
+Storage.prototype.setObj = function (key, obj) {
+        return this.setItem(key, JSON.stringify(obj))
+}
+Storage.prototype.getObj = function (key) {
+        return JSON.parse(this.getItem(key))
+}
+
+var allTasks = localStorage.getObj("allTasks") || [];
 var contorAll = 0;
 
 var completedTasks = [];
@@ -51,7 +59,7 @@ function addTask() {
                 contorAll++;
         }
         //local storage
-        localStorage.setItem("allTasks", JSON.stringify(allTasks));
+        localStorage.setObj("allTasks", allTasks);
 }
 function verificareExistenta(textNou) {
         let todos;
@@ -93,10 +101,14 @@ function removeTask(element) {
 }
 function editTask(element) {
         let el = element.getElementsByClassName("paragrafe")[0];
-        if (el.getAttribute("contenteditable") == "false")
+        if (el.getAttribute("contenteditable") == "false") {
                 el.setAttribute("contenteditable", "true");
-        else
+                el.classList.add("editareInCurs");
+        }
+        else {
                 el.setAttribute("contenteditable", "false");
+                el.classList.remove("editareInCurs");
+        }
 }
 function isCompleted(element) {
         let el = element;
