@@ -1,5 +1,11 @@
-var listaTaskuri = [];//all tasks
-var contor = 0;
+var allTasks = [];
+var contorAll = 0;
+
+var completedTasks = [];
+var contorCompleted = 0;
+
+var unCompletedTasks = [];
+var contorUncompleted = 0;
 
 function addTask() {
         let textNou = document.querySelector('#numeTaskNou').value;
@@ -41,8 +47,8 @@ function addTask() {
                 element.appendChild(butonDelete);
 
                 taskuri.appendChild(element);
-                listaTaskuri[contor] = element;
-                contor++;
+                allTasks[contorAll] = element;
+                contorAll++;
         }
 }
 function verificareExistenta(textNou) {
@@ -61,7 +67,20 @@ function verificareExistenta(textNou) {
 }
 function removeTask(element) {
         let el = element;
-        el.remove();
+        let text = el.getElementsByClassName("paragrafe")[0].innerHTML;
+        console.log(allTasks);
+        for (let i = 0; i < contorAll; i++) {
+                if (text == allTasks[i].getElementsByClassName("paragrafe")[0].innerHTML) {
+                        console.log("aici");
+                        for (let j = i; j < contorAll - 1; j++)///stergerea fara functie
+                        {
+                                allTasks[j] = allTasks[j + 1];
+                        }
+                        contorAll--;
+                }
+        }
+        console.log(allTasks);
+        showAll();
 }
 function editTask(element) {
         let el = element.getElementsByClassName("paragrafe")[0];
@@ -81,7 +100,60 @@ function addTaskEnter(event) {
         event.preventDefault();
         addTask();
 }
+function update() {
+
+        contorCompleted = 0;
+        contorUncompleted = 0;
+
+        for (let i = 0; i < contorAll; i++) {
+
+                let comp = allTasks[i].getElementsByClassName("check")[0];
+
+                if (comp.classList.contains("completed")) {
+                        completedTasks[contorCompleted] = allTasks[i];
+                        contorCompleted++;
+                } else {
+                        unCompletedTasks[contorUncompleted] = allTasks[i];
+                        contorUncompleted++;
+                }
+        }
+}
+function showAll() {
+        document.getElementsByClassName("adaugate")[0].remove();
+        var element = document.createElement("div");
+        element.classList.add("adaugate");
+
+        for (let i = 0; i < contorAll; i++) {
+                element.appendChild(allTasks[i]);
+        }
+        let parent = document.getElementsByClassName("container")[0];
+        parent.insertBefore(element, parent.children[2]);
+
+}
+function showCompleted() {
+
+        update();
+        document.getElementsByClassName("adaugate")[0].remove();
+        var element = document.createElement("div");
+        element.classList.add("adaugate");
+
+        for (let i = 0; i < contorCompleted; i++) {
+                element.appendChild(completedTasks[i]);
+        }
+        let parent = document.getElementsByClassName("container")[0];
+        parent.insertBefore(element, parent.children[2]);
+}
+function showUncompleted() {
+        update();
+        document.getElementsByClassName("adaugate")[0].remove();
+        var element = document.createElement("div");
+        element.classList.add("adaugate");
+
+        for (let i = 0; i < contorUncompleted; i++) {
+                element.appendChild(unCompletedTasks[i]);
+        }
+        let parent = document.getElementsByClassName("container")[0];
+        parent.insertBefore(element, parent.children[2]);
+}
 const form = document.getElementById('addTask');
 form.addEventListener('submit', addTaskEnter);
-///fac un for, verific daca elementul are clasa completed
-///daca o are il creez lista completed si o afisez,daca nu creez lista active si o afisez
