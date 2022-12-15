@@ -1,4 +1,4 @@
-var allTasks = [];
+var allTasks = JSON.parse(localStorage.getItem("names"));
 var contorAll = 0;
 
 var completedTasks = [];
@@ -22,7 +22,7 @@ function addTask() {
                 element.classList.add("todos");
 
                 let buton = document.createElement("button");
-                buton.innerHTML = "✔";
+                buton.innerHTML = "🎄✔";
                 buton.setAttribute("onclick", "isCompleted(this)");
                 buton.classList.add("check");
 
@@ -50,17 +50,26 @@ function addTask() {
                 allTasks[contorAll] = element;
                 contorAll++;
         }
+        //local storage
+        localStorage.setItem("allTasks", JSON.stringify(allTasks));
 }
 function verificareExistenta(textNou) {
-        let todos = document.getElementsByClassName("adaugate")[0];
+        let todos;
+        let taskuri;
 
-        let taskuri = document.getElementsByClassName("todos");
+        if (document.getElementsByClassName("adaugate")[0] != null) {
+                todos = document.getElementsByClassName("adaugate")[0];
 
-        for (let i = 0; i < todos.childNodes.length - 2; i++) {
-                let comp = taskuri[i].getElementsByClassName("paragrafe")[0].innerHTML;
+                if (document.getElementsByClassName("todos") != null) {
+                        taskuri = document.getElementsByClassName("todos");
 
-                if (comp == textNou) {
-                        return 1;
+                        for (let i = 0; i < todos.childNodes.length - 2; i++) {
+                                let comp = taskuri[i].getElementsByClassName("paragrafe")[0].innerHTML;
+
+                                if (comp == textNou) {
+                                        return 1;
+                                }
+                        }
                 }
         }
         return 0;
@@ -105,6 +114,9 @@ function update() {
         contorCompleted = 0;
         contorUncompleted = 0;
 
+        if(document.getElementsByClassName("mesajStergere")[0] != null)
+                document.getElementsByClassName("mesajStergere")[0].remove();
+
         for (let i = 0; i < contorAll; i++) {
 
                 let comp = allTasks[i].getElementsByClassName("check")[0];
@@ -119,7 +131,12 @@ function update() {
         }
 }
 function showAll() {
-        document.getElementsByClassName("adaugate")[0].remove();
+        if (document.getElementsByClassName("mesajStergere")[0] != null)
+                document.getElementsByClassName("mesajStergere")[0].remove();
+
+        if (document.getElementsByClassName("adaugate")[0] != null)
+                document.getElementsByClassName("adaugate")[0].remove();
+
         var element = document.createElement("div");
         element.classList.add("adaugate");
 
@@ -131,29 +148,54 @@ function showAll() {
 
 }
 function showCompleted() {
-
         update();
-        document.getElementsByClassName("adaugate")[0].remove();
-        var element = document.createElement("div");
-        element.classList.add("adaugate");
+        if(document.getElementsByClassName("adaugate")[0] != null)
+                document.getElementsByClassName("adaugate")[0].remove();
+        if (contorCompleted != 0) {
+                var element = document.createElement("div");
+                element.classList.add("adaugate");
 
-        for (let i = 0; i < contorCompleted; i++) {
-                element.appendChild(completedTasks[i]);
+                for (let i = 0; i < contorCompleted; i++) {
+                        element.appendChild(completedTasks[i]);
+                }
+                let parent = document.getElementsByClassName("container")[0];
+                parent.insertBefore(element, parent.children[2]);
         }
-        let parent = document.getElementsByClassName("container")[0];
-        parent.insertBefore(element, parent.children[2]);
+        else {
+                let element = document.createElement("div");
+                element.classList.add("mesajStergere");
+                let mesaj = document.createElement("p");
+                mesaj.classList.add("mesaj");
+                mesaj.innerHTML = "Nu ai niciun cadou primit";
+                element.appendChild(mesaj);
+                let parent = document.getElementsByClassName("container")[0];
+                parent.insertBefore(element, parent.children[2]);
+        }
 }
 function showUncompleted() {
         update();
-        document.getElementsByClassName("adaugate")[0].remove();
-        var element = document.createElement("div");
-        element.classList.add("adaugate");
+        if(document.getElementsByClassName("adaugate")[0] != null)
+                document.getElementsByClassName("adaugate")[0].remove();
+        if (contorUncompleted != 0) {
+                var element = document.createElement("div");
+                element.classList.add("adaugate");
 
-        for (let i = 0; i < contorUncompleted; i++) {
-                element.appendChild(unCompletedTasks[i]);
+                for (let i = 0; i < contorUncompleted; i++) {
+                        element.appendChild(unCompletedTasks[i]);
+                }
+                let parent = document.getElementsByClassName("container")[0];
+                parent.insertBefore(element, parent.children[2]);
         }
-        let parent = document.getElementsByClassName("container")[0];
-        parent.insertBefore(element, parent.children[2]);
+        else {
+                let element = document.createElement("div");
+                element.classList.add("mesajStergere");
+                let mesaj = document.createElement("p");
+                mesaj.classList.add("mesaj");
+                mesaj.innerHTML = "Nu ai niciun cadou neprimit";
+                element.appendChild(mesaj);
+                let parent = document.getElementsByClassName("container")[0];
+                parent.insertBefore(element, parent.children[2]);
+        }
 }
 const form = document.getElementById('addTask');
 form.addEventListener('submit', addTaskEnter);

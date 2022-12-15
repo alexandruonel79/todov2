@@ -1,7 +1,7 @@
 html{
         font-family: Arial, sans-serif;
-        background-color: #3f4247;
-        color: #aeb3bd;
+        background: url("background.jpg") no-repeat center center fixed; 
+        color: #C30F16;
 }
 .container{
         display: flex;
@@ -59,23 +59,23 @@ html{
         width: 320px;
         height: 50px;
         border-radius: 30px;
-        border-color: black;
-        background-color: #898c8c;
+        border-color: #C30F16;
+        background-color: transparent;
 
 }
 #adaugareTaskNou{
         height: 50px;
         border-radius: 30px;
-        background-color: #898c8c;
-        font-size: medium;
-        color: whitesmoke;
-        transition: background-color 0.5s;
+        background-color: #C30F16;
+        font-size: 20px;
+        color: white;
+        transition: background-color 0.6s;
 }
 #adaugareTaskNou:hover{
         background-color: #b5bbbb;
 }
 .check{
-        color: red;
+        color: #C30F16;
         background-color: #081426;
         border: none;
         font-size: large;
@@ -83,8 +83,36 @@ html{
 .completed{
         color: green;
 }
+#numeTaskNou::placeholder{
+        color: rgb(238, 168, 168);
+        font-size: 22px;
+}
+#numeTaskNou{
+        color: white;
+        font-size: 25px;
+        transition: background-color 0.4s;
+}
+#numeTaskNou:hover{
+        background-color: rgb(141, 65, 65);
+}
+.status{
+        margin-top: 20px;
+}
 .info{
-        font-size: 20px;
-        border-radius: 10px;
-        background-color: #7ab9b9;
+        color: white;
+        font-size: 25px;
+        border-radius: 30px;
+        border-color: #C30F16;
+        background-color: #1E792C;
+        transition: background-color 0.4s;
+}
+.info:hover{
+        background-color: #03330a;
+}
+.mesaj{
+        color: white;
+        font-size: 25px;
+}
+.mesajStergere{
+        background: none;
 }
