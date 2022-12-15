@@ -114,7 +114,7 @@ function update() {
         contorCompleted = 0;
         contorUncompleted = 0;
 
-        if(document.getElementsByClassName("mesajStergere")[0] != null)
+        if (document.getElementsByClassName("mesajStergere")[0] != null)
                 document.getElementsByClassName("mesajStergere")[0].remove();
 
         for (let i = 0; i < contorAll; i++) {
@@ -149,7 +149,7 @@ function showAll() {
 }
 function showCompleted() {
         update();
-        if(document.getElementsByClassName("adaugate")[0] != null)
+        if (document.getElementsByClassName("adaugate")[0] != null)
                 document.getElementsByClassName("adaugate")[0].remove();
         if (contorCompleted != 0) {
                 var element = document.createElement("div");
@@ -174,7 +174,7 @@ function showCompleted() {
 }
 function showUncompleted() {
         update();
-        if(document.getElementsByClassName("adaugate")[0] != null)
+        if (document.getElementsByClassName("adaugate")[0] != null)
                 document.getElementsByClassName("adaugate")[0].remove();
         if (contorUncompleted != 0) {
                 var element = document.createElement("div");
@@ -197,5 +197,39 @@ function showUncompleted() {
                 parent.insertBefore(element, parent.children[2]);
         }
 }
+///functie imprumutata de pe net si modificata
+///am folosit si countdown ul din laborator (scheletul html si css ul)
+function calculateChristmasCountdown() {
+        var now = new Date();
+        var currentMonth = (now.getMonth() + 1);
+        var currentDay = now.getDate();
+        var nextChristmasYear = now.getFullYear();
+        var nextChristmasDate = nextChristmasYear + '-12-25T00:00:00.000Z';
+        var christmasDay = new Date(nextChristmasDate);
+
+        var diffSeconds = Math.floor((christmasDay.getTime() - now.getTime()) / 1000);
+
+        var days = 0;
+        var hours = 0;
+        var minutes = 0;
+        var seconds = 0;
+
+        if (currentMonth != 12 || (currentMonth == 12 && currentDay != 25)) {
+                days = Math.floor(diffSeconds / (3600 * 24));
+                diffSeconds -= days * 3600 * 24;
+                hours = Math.floor(diffSeconds / 3600);
+                diffSeconds -= hours * 3600;
+                minutes = Math.floor(diffSeconds / 60);
+                diffSeconds -= minutes * 60;
+                seconds = diffSeconds;
+        }
+        document.getElementsByClassName('days')[0].innerHTML = days;
+        document.getElementsByClassName('hours')[0].innerHTML = hours;
+        document.getElementsByClassName('minutes')[0].innerHTML = minutes;
+        document.getElementsByClassName('seconds')[0].innerHTML = seconds;
+}
+//am folosit ca in laborator setinterval
+setInterval(calculateChristmasCountdown, 1000);
+
 const form = document.getElementById('addTask');
 form.addEventListener('submit', addTaskEnter);
