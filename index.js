@@ -1,12 +1,4 @@
-///storage pentru taskuri nu functioneaza
-Storage.prototype.setObj = function (key, obj) {
-        return this.setItem(key, JSON.stringify(obj))
-}
-Storage.prototype.getObj = function (key) {
-        return JSON.parse(this.getItem(key))
-}
-
-var allTasks = localStorage.getObj("allTasks") || [];
+var allTasks = [];
 var contorAll = 0;
 
 var completedTasks = [];
@@ -58,37 +50,25 @@ function addTask() {
                 allTasks[contorAll] = element;
                 contorAll++;
         }
-        //local storage
-        localStorage.setObj("allTasks", allTasks);
 }
 function verificareExistenta(textNou) {
-        let todos;
-        let taskuri;
 
-        if (document.getElementsByClassName("adaugate")[0] != null) {
-                todos = document.getElementsByClassName("adaugate")[0];
+        for (let i = 0; i < contorAll; i++) {
+                let comp = allTasks[i].getElementsByClassName("paragrafe")[0].innerHTML;
 
-                if (document.getElementsByClassName("todos") != null) {
-                        taskuri = document.getElementsByClassName("todos");
-
-                        for (let i = 0; i < todos.childNodes.length - 2; i++) {
-                                let comp = taskuri[i].getElementsByClassName("paragrafe")[0].innerHTML;
-
-                                if (comp == textNou) {
-                                        return 1;
-                                }
-                        }
+                if (comp == textNou) {
+                        return 1;
                 }
         }
         return 0;
 }
+
+
 function removeTask(element) {
         let el = element;
         let text = el.getElementsByClassName("paragrafe")[0].innerHTML;
-        console.log(allTasks);
         for (let i = 0; i < contorAll; i++) {
                 if (text == allTasks[i].getElementsByClassName("paragrafe")[0].innerHTML) {
-                        console.log("aici");
                         for (let j = i; j < contorAll - 1; j++)///stergerea fara functie
                         {
                                 allTasks[j] = allTasks[j + 1];
@@ -96,7 +76,6 @@ function removeTask(element) {
                         contorAll--;
                 }
         }
-        console.log(allTasks);
         showAll();
 }
 function editTask(element) {
@@ -184,7 +163,7 @@ function showCompleted() {
                 parent.insertBefore(element, parent.children[2]);
         }
 }
-function showUncompleted() {
+function showUnCompleted() {
         update();
         if (document.getElementsByClassName("adaugate")[0] != null)
                 document.getElementsByClassName("adaugate")[0].remove();
@@ -216,11 +195,14 @@ function calculateChristmasCountdown() {
         var currentMonth = (now.getMonth() + 1);
         var currentDay = now.getDate();
         var nextChristmasYear = now.getFullYear();
+
+        if (currentMonth == 12 && currentDay > 25) {
+                nextChristmasYear = nextChristmasYear + 1;
+        }
+
         var nextChristmasDate = nextChristmasYear + '-12-25T00:00:00.000Z';
         var christmasDay = new Date(nextChristmasDate);
-
         var diffSeconds = Math.floor((christmasDay.getTime() - now.getTime()) / 1000);
-
         var days = 0;
         var hours = 0;
         var minutes = 0;
@@ -239,6 +221,20 @@ function calculateChristmasCountdown() {
         document.getElementsByClassName('hours')[0].innerHTML = hours;
         document.getElementsByClassName('minutes')[0].innerHTML = minutes;
         document.getElementsByClassName('seconds')[0].innerHTML = seconds;
+}
+function clearCompleted() {
+        for (let i = 0; i < contorAll; i++) {
+                let comp = allTasks[i].getElementsByClassName("check")[0];
+                if (comp.classList.contains("completed")) {
+                        for (let j = i; j < contorAll - 1; j++)///stergerea fara functie
+                        {
+                                allTasks[j] = allTasks[j + 1];
+                        }
+                        contorAll--;
+                }
+        }
+        showAll();
+
 }
 //am folosit ca in laborator setinterval
 setInterval(calculateChristmasCountdown, 1000);
